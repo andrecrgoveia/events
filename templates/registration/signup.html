@@ -1,15 +1,15 @@
-<!-- templates/registration/login.html -->
+<!-- templates/registration/signup.html -->
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
 
   <br>
-  <h3 class="text-center">Login</h3>
+  <h3 class="text-center">Signup</h3>
   <br>
 
   <form method="post">
@@ -17,26 +17,29 @@
 
     <div class="row justify-content-md-center">
       <div class="col-md-auto">
-
+        
         <div class="row">
           <div class="col-sm">
-            {{ form.username|as_crispy_field }}
+            {{ form.email|as_crispy_field }}
+          </div>
+        </div>
+    
+        <br>
+    
+        <div class="row">
+          <div class="col-sm">
+              {{ form.password1|as_crispy_field }}
+          </div>
+          <div class="col-sm">
+              {{ form.password2|as_crispy_field }}
           </div>
         </div>
     
         <br>
 
-        <div class="row">
-          <div class="col-sm">
-            {{ form.password|as_crispy_field }}
-          </div>
-        </div>
-
-        <br>
-
         <div class="row justify-content-md-center">
           <div class="col-md-auto">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary">Sign in</button>
           </div>
         </div>
 

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <br>
+  <h3 class="text-center">Home</h3>
+  <br>
+
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+
+      {% if user.is_authenticated %}
+
+      <div class="row">
+        <div class="col-sm">
+          <p class="text-center">Hi {{ user.email }}!</p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm">
+          <p class="text-center"><a href="{% url 'logout' %}">Log Out</a></p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm">
+          <p class="text-center"><a href="{% url 'password_reset' %}">Reset Password</a></p>
+        </div>
+      </div>
+
+      {% else %}
+
+      <div class="row">
+        <div class="col-sm">
+          <p class="text-center">You are not logged in!</p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm">
+          <p class="text-center"><a href="{% url 'login' %}">Log In</a></p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-sm">
+          <p class="text-center"><a href="{% url 'signup' %}">Signup</a></p>
+        </div>
+      </div>
+
+      {% endif %}
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
