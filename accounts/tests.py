@@ -4,6 +4,9 @@ from django.test import TestCase
 # Developer's imports
 from django.contrib.auth import get_user_model
 
+# Forms' imports
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+
 
 class UsersManagersTests(TestCase):
 
@@ -15,7 +18,7 @@ class UsersManagersTests(TestCase):
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
         try:
-            # username does not exist for the AbstractBaseUser
+            # username does not exist for this web application
             self.assertIsNone(user.username)
         except AttributeError:
             pass
@@ -34,7 +37,7 @@ class UsersManagersTests(TestCase):
         self.assertTrue(admin_user.is_staff)
         self.assertTrue(admin_user.is_superuser)
         try:
-            # username does not exist for the AbstractBaseUser
+            # username does not exist for this web application
             self.assertIsNone(admin_user.username)
         except AttributeError:
             pass

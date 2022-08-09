@@ -2,10 +2,12 @@
 from django.urls import path
 
 # View's imports
-from .views import (SignUpView)
+from .views import SignUpView, UserUpdateView
 
 
 urlpatterns = [
     # View to subscribe new users
-    path("signup/", SignUpView.as_view(), name="signup"),
+    path('signup/', SignUpView.as_view(), name='signup'),
+    # View to update users
+    path('userupdate/<int:pk>/', UserUpdateView.as_view(), name='userupdate'),
 ]
