@@ -11,6 +11,8 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
 
 
+"""Registering models for system admin can edit the data"""
+
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -31,4 +33,5 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 
+# Here we user a register normal for this model
 admin.site.register(CustomUser, CustomUserAdmin)

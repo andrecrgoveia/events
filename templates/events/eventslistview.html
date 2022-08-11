@@ -1,0 +1,43 @@
+<!-- templates/registration/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}All Event{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>user</th>
+            <th>title</th>
+            <th>description</th>
+            <th>date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+        <tr>
+            <td>
+                <a href="#" class="btn btn-primary" style="margin-top: 30px; !important"><i class="fas fa-edit" style="color: white;"></i></a>
+                <a href="#" class="btn btn-danger" style="margin-top: 30px; !important"><i class="fas fa-trash-alt" style="color: white;"></i></a>
+            </td>
+            <td>{{ item.user }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+<script>
+		
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
+
+</script>
+{% endblock %}

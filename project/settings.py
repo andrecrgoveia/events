@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     # Developer's apps
     'accounts',
+    'events',
 ]
 
 # crispy_forms configuration
