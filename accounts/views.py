@@ -25,10 +25,10 @@ class SignUpView(generic.CreateView):
 
 
 # This class makes a form to update users
-class UserUpdateView(UpdateView):
+class EmailUpdateView(UpdateView):
     model = CustomUser
     # form_class = CustomUserChangeForm  # This form is used to update users
-    template_name = 'registration/userupdate.html'
+    template_name = 'registration/emailupdateview.html'
     fields = ['email',]
 
     # This function redirect to login url when the user was updated

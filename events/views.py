@@ -7,9 +7,6 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
-# Models Accounts'  imports
-from accounts.models import CustomUser # Remover depois????
-
 # Models Events' imports
 from events.models import Event
 
@@ -25,14 +22,24 @@ class AllEventsListView(ListView):
 
     def get(self, request):
         # Filtering all active events
-        data = Event.objects.filter(active=True)
+        data = Event.objects.filter(active=True).order_by('date')
 
-        # for item in data:
-        #     name = str(item.user)
-        #     nome = name[:name.index("@")]
-        #     print(nome)
+        # Creating a list to receive all active events and their data
+        all_active_events = []
 
-        context = {'data': data}
+        # Making a loop in Events queryset, to better handle with the data and append items in all_active_events list
+        for item in data.values():
+            all_active_events.append(item)
+
+            # Making a loop in Events queryset to check user_id and append the owner info
+            for d in data:
+                if int(d.user_id) == int(item.get('user_id')):
+                    # This block is used to separate the username from the user's full email
+                    username = str(d.user)
+                    owner = username[:username.index("@")]
+                    item['owner'] = owner
+
+        context = {'all_active_events': all_active_events}
 
         return render(request, 'events/alleventslistview.html', context)
 
@@ -47,7 +54,7 @@ class UserEventsListView(ListView):
         # Getting data from logged user
         logged_user = request.user.id
         # Filtering all active events
-        data = Event.objects.filter(user=logged_user)
+        data = Event.objects.filter(user=logged_user).order_by('date')
 
         context = {'data': data}
 

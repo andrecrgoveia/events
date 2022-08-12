@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in data %}
+            {% for item in all_active_events %}
             <tr>
                 <td>
                     <a href="#" class="btn btn-primary"><i class="fas fa-edit" style="color: white;"></i></a>
@@ -35,7 +35,7 @@
                 <td>{{ item.title }}</td>
                 <td>{{ item.date }}</td>
                 <td>Amount of Participants</td>
-                <td>{{ item.user }}</td>
+                <td>{{ item.owner }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -48,9 +48,7 @@
 <script>
 		
     $(document).ready( function () {
-        $('#myTable').DataTable({
-            order: [[5, 'desc']],
-        });
+        $('#myTable').DataTable();
     } );
 
 </script>
