@@ -3,22 +3,30 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}Create Event{% endblock %}
+{% block title %}Edit Event{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
 
-  <br>
-  <h3 class="text-center">Create Event</h3>
-  <br>
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+
+      <br>
+      <h3 class="text-center">Edit Event: {{ object }}</h3>
+      <br>
 
   <form method="post">
     {% csrf_token %}
 
-    <div class="row justify-content-md-center">
-      <div class="col-md-auto">
-
         <input type="hidden" name="user" value="{{ request.user.id }}">
+
+        <div class="row justify-content-md-center">
+          <div class="col-sm-3">
+            {{ form.active|as_crispy_field }}
+          </div>
+        </div>
+
+        <br>
         
         <div class="row">
           <div class="col-sm">
@@ -46,7 +54,7 @@
 
         <div class="row justify-content-md-center">
           <div class="col-md-auto">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Edit</button>
           </div>
         </div>
 

@@ -7,39 +7,57 @@
 {% block content %}
 <div class="container-fluid">
 
+  {% if user.is_authenticated %}
+
   <br>
-  <h3 class="text-center">Home</h3>
+  <h3 class="text-center">Hi {{ user.email }}!</h3>
+  <br>
+  <br>
   <br>
 
-  <div class="row justify-content-md-center">
-    <div class="col-md-auto">
-
-      {% if user.is_authenticated %}
-
-      <div class="row">
-        <div class="col-sm">
-          <p class="text-center">Hi {{ user.email }}!</p>
+  <div class="row">
+    <div class="col-sm">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">View all events</h5>
+          <p class="card-text">Here you can see all events.</p>
+          <a href="{% url 'alleventslistview' %}" class="btn btn-primary">Go</a>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-sm">
-          <a class="nav-link" href="{% url 'eventscreateview' %}">Create Event</a>
+    </div>
+    <div class="col-sm">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Create your event</h5>
+          <p class="card-text">Here you can create your own event.</p>
+          <a href="{% url 'eventscreateview' %}" class="btn btn-primary">Go</a>
         </div>
       </div>
-
-      {% else %}
-
-      <div class="row">
-        <div class="col-sm">
-          <p class="text-center">You are not logged in!</p>
+    </div>
+    <div class="col-sm">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Your registered events</h5>
+          <p class="card-text">Here you can manage your own event.</p>
+          <a href="{% url 'usereventslistview' %}" class="btn btn-primary">Go</a>
         </div>
       </div>
-
-      {% endif %}
-
     </div>
   </div>
+
+  {% else %}
+
+  <br>
+  <br>
+  <br>
+
+  <div class="row align-items-center">
+    <div class="col">
+      <p class="text-center">You are not logged in!</p>
+    </div>
+  </div>
+
+  {% endif %}
 
 </div>
 {% endblock %}

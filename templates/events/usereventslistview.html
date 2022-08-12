@@ -1,0 +1,67 @@
+<!-- templates/registration/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}Your Events{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+<div class="container">
+
+    <br>
+    <h3 class="text-center">Your Events Registered</h3>
+    <br>
+
+    <table id="myTable" class="table">
+        <thead>
+            <tr>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Active?</th>
+                <th>Modified At</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>
+                    <a href="{% url 'eventsupdateview' item.pk %}" class="btn btn-primary"><i class="fas fa-edit" style="color: white;"></i></a>
+                </td>
+                <td>
+                    <a href="{% url 'eventsdeleteview' item.pk %}" class="btn btn-danger"><i class="fas fa-trash-alt" style="color: white;"></i></a>
+                </td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.date }}</td>
+
+                {% if item.active == True %}
+                <td><button type="button" class="btn btn-outline-success">Active</button></td>
+                {% else %}
+                <td><button type="button" class="btn btn-outline-danger">Inactive</button></td>
+                {% endif %}
+
+                <td>{{ item.modified }}</td>
+                <td>{{ item.created }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+<script>
+		
+    $(document).ready( function () {
+        $('#myTable').DataTable({
+            order: [[6, 'desc']],
+        });
+    } );
+
+</script>
+{% endblock %}

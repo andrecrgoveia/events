@@ -1,0 +1,57 @@
+<!-- templates/registration/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}All Event{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+<div class="container">
+
+    <br>
+    <h3 class="text-center">All Events</h3>
+    <br>
+
+    <table id="myTable" class="table">
+        <thead>
+            <tr>
+                <th>Sign Up</th>
+                <th>Subscribed</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Amount of Participants</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>
+                    <a href="#" class="btn btn-primary"><i class="fas fa-edit" style="color: white;"></i></a>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt" style="color: white;"></i></a>
+                </td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.date }}</td>
+                <td>Amount of Participants</td>
+                <td>{{ item.user }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+<script>
+		
+    $(document).ready( function () {
+        $('#myTable').DataTable({
+            order: [[5, 'desc']],
+        });
+    } );
+
+</script>
+{% endblock %}

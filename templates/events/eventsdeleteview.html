@@ -1,0 +1,27 @@
+<!-- templates/registration/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}Delete Event{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+<div class="container">
+
+    <br>
+    <h3 class="text-center">Delete Event: {{ object }}</h3>
+    <br>
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <br>
+
+    <form method="post">
+        {% csrf_token %}
+    
+        <div class="row">
+            <div class="col">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    
+      </form>
+{% endblock %}

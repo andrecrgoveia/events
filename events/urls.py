@@ -2,12 +2,18 @@
 from django.urls import path
 
 # View's imports
-from .views import EventsCreateView, EventsListView
+from .views import *
 
 
 urlpatterns = [
+    # Path to show all events
+    path('alleventslistview/', AllEventsListView.as_view(), name='alleventslistview'),
+    # Path to show all user's events
+    path('usereventslistview/', UserEventsListView.as_view(), name='usereventslistview'),
     # Path to create events
     path('eventscreateview/', EventsCreateView.as_view(), name='eventscreateview'),
-    # Path to show all events
-    path('eventslistview/', EventsListView.as_view(), name='eventslistview'),
+    # Path to edit events
+    path('eventsupdateview/<int:pk>/', EventsUpdateView.as_view(), name='eventsupdateview'),
+    # Path to delet events
+    path('eventsdeleteview/<int:pk>/', EventsDeleteView.as_view(), name='eventsdeleteview'),
 ]

@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 # Forms' imports
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import *
 
 # Models' imports
 from .models import CustomUser

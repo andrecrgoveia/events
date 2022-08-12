@@ -4,9 +4,6 @@ from django.test import TestCase
 # Developer's imports
 from django.contrib.auth import get_user_model
 
-# Forms' imports
-from .forms import CustomUserCreationForm, CustomUserChangeForm
-
 
 class UsersManagersTests(TestCase):
 

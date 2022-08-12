@@ -2,7 +2,7 @@
 from django.urls import path
 
 # View's imports
-from .views import SignUpView, UserUpdateView
+from .views import *
 
 
 urlpatterns = [

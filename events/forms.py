@@ -14,6 +14,21 @@ class EventCreationForm(forms.ModelForm):
         widgets = {
             'user': forms.TextInput(attrs={'type': 'text'}),
             'title': forms.TextInput(attrs={'type': 'text'}),
-            'description': forms.TextInput(attrs={'type': 'text'}),
+            'description': forms.Textarea(attrs={'type': 'text'}),
             'date': forms.TextInput(attrs={'type': 'date'})
         }
+
+
+# Form to update events
+class EventUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Event
+        fields = ('user', 'title', 'description', 'date', 'active')
+        widgets = {
+                'user': forms.TextInput(attrs={'type': 'text'}),
+                'title': forms.TextInput(attrs={'type': 'text'}),
+                'description': forms.Textarea(attrs={'type': 'text'}),
+                'date': forms.TextInput(attrs={'type': 'date'}),
+                'active': forms.CheckboxInput()
+            }

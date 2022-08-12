@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 # Forms' imports
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import *
 
 # Models' imports
 from .models import CustomUser
