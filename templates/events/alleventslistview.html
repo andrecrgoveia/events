@@ -27,14 +27,14 @@
             {% for item in all_active_events %}
             <tr>
                 <td>
-                    <a href="#" class="btn btn-primary"><i class="fas fa-edit" style="color: white;"></i></a>
+                    <a href="{% url 'eventsubscriptionview' item.id %}" class="btn btn-primary"><i class="fas fa-user-plus" style="color: white;"></i></a>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt" style="color: white;"></i></a>
+                    <i class="fa fa-check" style="color: white;"></i>
                 </td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.date }}</td>
-                <td>Amount of Participants</td>
+                <td>{{ item.participant }}</td>
                 <td>{{ item.owner }}</td>
             </tr>
             {% endfor %}

@@ -2,69 +2,60 @@
 from django.test import TestCase
 
 # Developer's import
-from datetime import date, datetime
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 
 # Models' imports
-from accounts.models import CustomUser
 from events.models import Event
 
+# Forms' imports
+from events.forms import EventCreationForm, EventUpdateForm
 
 
+# models' test
+class EventsTests(TestCase):
+
+    def create_event(self):
+        User = get_user_model()
+        user = User.objects.create_user(email='normal@user.com', password='normal_password')
+        return Event.objects.create(user=user, title='title', description='description', date=timezone.now())
+
+    def test_create_event(self):
+        event = self.create_event()
+        self.assertTrue(isinstance(event, Event))
 
 
+# form's test
+class EventsFormTests(TestCase):
 
-# # models test
-# class EventTests(TestCase):
+    def test_create_form(self):
+        self.user = 'new_user'
+        self.title = 'new_title'
+        self.description = 'new_description'
+        self.date = timezone.now()
 
-#     def create_event(self):
-#         user=CustomUser.objects.filter(id=1)
-#         print(CustomUser.objects.filter(id=2))
-#         return Event.objects.create(user=user, title='title', description='description', date=timezone.now())
+        self.data = {
+            'user': self.user,
+            'title': self.title,
+            'description': self.description,
+            'date': self.date
+        }
 
-#     def test_event_creation(self):
-#         w = self.create_event()
-#         self.assertTrue(isinstance(w, Event))
-#         self.assertEqual(w.__unicode__(), w.title)
+        self.form = EventCreationForm(data=self.data)
 
-# class EventTests(TestCase):
+    def test_update_form(self):
+        self.user = 'new_user'
+        self.title = 'new_title'
+        self.description = 'new_description'
+        self.date = timezone.now()
+        self.active = True
 
-#     def test_create_event(self):
-#         Event = Event.objects.all()
-#         event = Event.objects.create(
-#             user=1,
-#             title='some_title',
-#             description='some_description',
-#             date=datetime.date(2022, 10, 11)
-#             )
-#         self.assertEqual(user.email, 'normal@user.com')
-#         self.assertTrue(user.is_active)
-#         self.assertFalse(user.is_staff)
-#         self.assertFalse(user.is_superuser)
-#         try:
-#             # username does not exist for this web application
-#             self.assertIsNone(user.username)
-#         except AttributeError:
-#             pass
-#         with self.assertRaises(TypeError):
-#             User.objects.create_user()
-#         with self.assertRaises(TypeError):
-#             User.objects.create_user(email='')
-#         with self.assertRaises(ValueError):
-#             User.objects.create_user(email='', password="normal_password")
+        self.data = {
+            'user': self.user,
+            'title': self.title,
+            'description': self.description,
+            'date': self.date,
+            'active': self.active
+        }
 
-#     def test_create_superuser(self):
-#         User = get_user_model()
-#         admin_user = User.objects.create_superuser(email='super@user.com', password='super_password')
-#         self.assertEqual(admin_user.email, 'super@user.com')
-#         self.assertTrue(admin_user.is_active)
-#         self.assertTrue(admin_user.is_staff)
-#         self.assertTrue(admin_user.is_superuser)
-#         try:
-#             # username does not exist for this web application
-#             self.assertIsNone(admin_user.username)
-#         except AttributeError:
-#             pass
-#         with self.assertRaises(ValueError):
-#             User.objects.create_superuser(
-#                 email='super@user.com', password='super_password', is_superuser=False)
+        self.form = EventUpdateForm(data=self.data)

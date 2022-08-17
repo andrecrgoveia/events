@@ -34,3 +34,17 @@ class Event(Base):
 
     def __str__(self):
         return self.title
+
+
+# In this class we can assign an event
+class Subscription(Base):
+    subscribed_user = models.ForeignKey(CustomUser, related_name='subscribed_user', on_delete=models.DO_NOTHING)
+    subscribed_event = models.ForeignKey(Event, related_name='subscribed_event', on_delete=models.DO_NOTHING)
+
+     # Configuration for easy viewing of data on the admin panel
+    class Meta:
+        verbose_name = "Subscription"
+        verbose_name_plural = "Subscriptions"
+
+    def __str__(self):
+        return self.subscribed_event

@@ -39,6 +39,8 @@ class AllEventsListView(ListView):
                     owner = username[:username.index("@")]
                     item['owner'] = owner
 
+        print(all_active_events)
+
         context = {'all_active_events': all_active_events}
 
         return render(request, 'events/alleventslistview.html', context)
@@ -85,3 +87,23 @@ class EventsDeleteView(DeleteView):
     model = Event
     template_name = "events/eventsdeleteview.html"
     success_url = reverse_lazy('usereventslistview')
+
+
+# In this class we can sign up an events
+@method_decorator(login_required, name='dispatch')
+class EventSubscriptionView(UpdateView):
+    model = Subscription
+    form_class = EventSubscriptionForm
+    template_name = 'events/eventsubscriptionview.html'
+    success_url = reverse_lazy('alleventslistview')
+
+    def get(self, request, pk):
+        # Filtering all active events
+        data = Event.objects.filter(id=pk).values()
+
+        context = {
+            'title': data[0]['title'],
+            'event_id': data[0]['id'],
+            }
+
+        return render(request, 'events/eventsubscriptionview.html', context)

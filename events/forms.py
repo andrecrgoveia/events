@@ -2,7 +2,7 @@
 from django import forms
 
 # Models Events' imports
-from events.models import Event
+from events.models import Event, Subscription
 
 
 # Form to create events
@@ -32,3 +32,12 @@ class EventUpdateForm(forms.ModelForm):
                 'date': forms.TextInput(attrs={'type': 'date'}),
                 'active': forms.CheckboxInput()
             }
+
+
+# Form to subscribe in an event
+class EventSubscriptionForm(forms.ModelForm):
+
+    class Meta:
+        model = Subscription
+        fields = ('subscribed_user', 'subscribed_event',)
+        widgets = {'subscribed_user': forms.CheckboxInput()}

@@ -1,0 +1,47 @@
+<!-- templates/registration/signup.html -->
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Sign Up Event{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <br>
+  <h3 class="text-center">Sign Up Event: {{ title }}</h3>
+  <br>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="row justify-content-md-center">
+      <div class="col-md-auto">
+
+        <br>
+        <p>Do you want to participate in the event "{{ title }}"?</p>
+        <br>
+        
+        <div class="row">
+          <div class="col-sm">
+            <label for="subscribed_user">Check the box to confirm participation in the event and click the subscribe button</label>
+            <input type="checkbox" name="subscribed_user" value="{{ request.user.id }}">
+            <input type="hidden" name="subscribed_event" value="{{ event_id }}">
+          </div>
+        </div>
+    
+        <br>
+
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto">
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+
+</div>
+{% endblock %}
