@@ -120,7 +120,7 @@ class EventSubscriptionView(CreateView):
         return render(request, 'events/eventsubscriptionview.html', context)
 
 
-# In this class we can edit events
+# In this class, we can unsubscribe to an events
 @method_decorator(login_required, name='dispatch')
 class EventUnsubscriptionView(DeleteView):
     model = Subscription
