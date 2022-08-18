@@ -8,7 +8,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 # Models Events' imports
-from events.models import Event
+from events.models import Event, Subscription
 
 # Forms' imports
 from .forms import *
@@ -39,7 +39,14 @@ class AllEventsListView(ListView):
                     owner = username[:username.index("@")]
                     item['owner'] = owner
 
-        print(all_active_events)
+                    # This block is used to get the total number of users in each event 
+                    subscriptions = Subscription.objects.filter(subscribed_event_id=item.get('id'))
+                    item['amount_of_participants'] = len(subscriptions) 
+
+                    # Add the subscribed user and subscribed id to the event in 'all_active_events'
+                    for s in subscriptions.values():
+                        item['user_participant'] = s.get('subscribed_user_id')
+                        item['subscription_id'] = s.get('id')
 
         context = {'all_active_events': all_active_events}
 
@@ -91,19 +98,31 @@ class EventsDeleteView(DeleteView):
 
 # In this class we can sign up an events
 @method_decorator(login_required, name='dispatch')
-class EventSubscriptionView(UpdateView):
+class EventSubscriptionView(CreateView):
     model = Subscription
     form_class = EventSubscriptionForm
     template_name = 'events/eventsubscriptionview.html'
     success_url = reverse_lazy('alleventslistview')
 
     def get(self, request, pk):
-        # Filtering all active events
+        # Filtering events by id
         data = Event.objects.filter(id=pk).values()
+
+        # Get logged user id
+        logged_user = request.user.id
 
         context = {
             'title': data[0]['title'],
             'event_id': data[0]['id'],
+            'logged_user': logged_user
             }
 
         return render(request, 'events/eventsubscriptionview.html', context)
+
+
+# In this class we can edit events
+@method_decorator(login_required, name='dispatch')
+class EventUnsubscriptionView(DeleteView):
+    model = Subscription
+    template_name = "events/eventunsubscriptionview.html"
+    success_url = reverse_lazy('alleventslistview')

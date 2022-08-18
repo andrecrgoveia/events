@@ -18,4 +18,6 @@ urlpatterns = [
     path('eventsdeleteview/<int:pk>/', EventsDeleteView.as_view(), name='eventsdeleteview'),
     # Path to sign up an event
     path('eventsubscriptionview/<int:pk>/', EventSubscriptionView.as_view(), name='eventsubscriptionview'),
+    # Path to sign up an event
+    path('eventunsubscriptionview/<int:pk>/', EventUnsubscriptionView.as_view(), name='eventunsubscriptionview'),
 ]

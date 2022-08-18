@@ -1,0 +1,36 @@
+<!-- templates/registration/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}Withdraw Event{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+<div class="container">
+
+    <br>
+    <h3 class="text-center">Withdraw Event: {{ object }}</h3>
+    <br>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+
+                <br>
+                <p>Are you sure you want to Withdraw from the event "{{ object }}"?</p>
+                <br>
+
+                <div class="row justify-content-md-center">
+                    <div class="col-md-auto">
+                        <button type="submit" class="btn btn-danger">Withdraw</button>
+                        <a href="{% url 'alleventslistview' %}" class="btn btn-primary">Cancel</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    
+      </form>
+{% endblock %}

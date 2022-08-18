@@ -40,4 +40,3 @@ class EventSubscriptionForm(forms.ModelForm):
     class Meta:
         model = Subscription
         fields = ('subscribed_user', 'subscribed_event',)
-        widgets = {'subscribed_user': forms.CheckboxInput()}

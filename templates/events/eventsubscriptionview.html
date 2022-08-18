@@ -22,19 +22,15 @@
         <p>Do you want to participate in the event "{{ title }}"?</p>
         <br>
         
-        <div class="row">
-          <div class="col-sm">
-            <label for="subscribed_user">Check the box to confirm participation in the event and click the subscribe button</label>
-            <input type="checkbox" name="subscribed_user" value="{{ request.user.id }}">
-            <input type="hidden" name="subscribed_event" value="{{ event_id }}">
-          </div>
-        </div>
+        <input type="hidden" name="subscribed_user" value="{{ logged_user }}">
+        <input type="hidden" name="subscribed_event" value="{{ event_id }}">
     
         <br>
 
         <div class="row justify-content-md-center">
           <div class="col-md-auto">
             <button type="submit" class="btn btn-primary">Subscribe</button>
+            <a href="{% url 'alleventslistview' %}" class="btn btn-danger">Cancel</a>
           </div>
         </div>
 

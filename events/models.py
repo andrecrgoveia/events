@@ -26,6 +26,7 @@ class Event(Base):
     title = models.CharField('Title', max_length=250, blank=False, null=False)
     description = models.CharField('Description', max_length=500, blank=False, null=False)
     date = models.DateField('Date', max_length=500, blank=False, null=False)
+    participants = models.ManyToManyField(CustomUser, related_name='participants')
 
      # Configuration for easy viewing of data on the admin panel
     class Meta:
@@ -47,4 +48,4 @@ class Subscription(Base):
         verbose_name_plural = "Subscriptions"
 
     def __str__(self):
-        return self.subscribed_event
+        return str(self.subscribed_event)

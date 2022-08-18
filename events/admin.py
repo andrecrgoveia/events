@@ -18,4 +18,4 @@ class EventAdmin(admin.ModelAdmin):
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
     # Displaying data in admin panel
-    list_display = ('subscribed_user', 'subscribed_event',)
+    list_display = ('subscribed_event', 'subscribed_user',)
