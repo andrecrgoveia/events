@@ -20,7 +20,6 @@ RUN apt-get update && apt-get upgrade -y
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-
 # port where the Django app runs
 EXPOSE 8000
 
