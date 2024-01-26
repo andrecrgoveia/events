@@ -38,7 +38,7 @@ user
 - password: normaluser
 
 ## Database relations
-![Database relations](https://raw.githubusercontent.com/andrecrgoveia/events/db_relations.png)
+![Database relations](https://raw.githubusercontent.com/andrecrgoveia/events/master/db_relations.png)
 
 ## How to run the project?
 
