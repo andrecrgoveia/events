@@ -1,19 +1,14 @@
-# Djangos' imports
 from django.contrib import admin
-
-# Developer's imports
 from django.contrib.auth.admin import UserAdmin
 
-# Forms' imports
-from .forms import *
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 
-# Models' imports
 from .models import CustomUser
 
 
-"""Registering models for system admin can edit the data"""
-
 class CustomUserAdmin(UserAdmin):
+    """Registering models for system admin can edit the data. """
+    
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser

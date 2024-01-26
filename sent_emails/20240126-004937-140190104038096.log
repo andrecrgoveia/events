@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: musician@musician.com
+Date: Fri, 26 Jan 2024 00:49:37 -0000
+Message-ID: <170623017783.40210.5620906635023182866@winstrollx>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/accounts/reset/Mw/c1dwyp-684f5619510b4eb5b22a3a8ba5be3843/
+
+Your username, in case you’ve forgotten: musician@musician.com
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------

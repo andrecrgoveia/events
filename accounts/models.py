@@ -1,16 +1,14 @@
-#  Django's imports
 from django.db import models
-
-# Developer's imports
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 
-# Managers' imports
 from .managers import CustomUserManager
 
 
-# Custom user model
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """Custom user model."""
+
+    id = models.BigAutoField(primary_key=True)
     email = models.EmailField('email address', unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -22,6 +20,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     # All objects will be manager by UserManager class
     objects = CustomUserManager()
-
-    def __str__(self):
-        return self.email
+    

@@ -1,3 +1,4 @@
+<!-- templates/home.html -->
 {% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
@@ -21,7 +22,7 @@
         <div class="card-body">
           <h5 class="card-title">View all events</h5>
           <p class="card-text">Here you can see all events.</p>
-          <a href="{% url 'alleventslistview' %}" class="btn btn-primary">Go</a>
+          <a href="{% url 'alleventslist' %}" class="btn btn-primary">Go</a>
         </div>
       </div>
     </div>
@@ -30,7 +31,7 @@
         <div class="card-body">
           <h5 class="card-title">Create your event</h5>
           <p class="card-text">Here you can create your own event.</p>
-          <a href="{% url 'eventscreateview' %}" class="btn btn-primary">Go</a>
+          <a href="{% url 'eventscreate' %}" class="btn btn-primary">Go</a>
         </div>
       </div>
     </div>
@@ -39,7 +40,7 @@
         <div class="card-body">
           <h5 class="card-title">Your registered events</h5>
           <p class="card-text">Here you can manage your own event.</p>
-          <a href="{% url 'usereventslistview' %}" class="btn btn-primary">Go</a>
+          <a href="{% url 'usereventslist' %}" class="btn btn-primary">Go</a>
         </div>
       </div>
     </div>

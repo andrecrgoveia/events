@@ -1,0 +1,65 @@
+<!-- templates/events/eventsupdate.html -->
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Event{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+
+      <br>
+      <h3 class="text-center">Edit Event: {{ object }}</h3>
+      <br>
+
+  <form method="post">
+    {% csrf_token %}
+
+        <div class="row justify-content-md-center">
+          <div class="col-sm-3">
+            {{ form.active|as_crispy_field }}
+          </div>
+        </div>
+
+        <br>
+        
+        <div class="row">
+          <div class="col-sm">
+            {{ form.title|as_crispy_field }}
+          </div>
+        </div>
+    
+        <br>
+    
+        <div class="row">
+          <div class="col-sm">
+              {{ form.description|as_crispy_field }}
+          </div>
+        </div>
+    
+        <br>
+
+        <div class="row justify-content-md-center">
+          <div class="col-sm-6">
+            {{ form.date|as_crispy_field }}
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto">
+            <button type="submit" class="btn btn-primary">Edit</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+
+</div>
+{% endblock %}

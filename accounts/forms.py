@@ -1,20 +1,18 @@
-# Developer's imports
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-# Models' imports
 from .models import CustomUser
 
 
-# Form to create new users
 class CustomUserCreationForm(UserCreationForm):
+    """Form to create new users."""
 
     class Meta:
         model = CustomUser
         fields = ('email',)
 
 
-# A form to update new users
 class CustomUserChangeForm(UserChangeForm):
+    """A form to update new users."""
 
     class Meta:
         model = CustomUser

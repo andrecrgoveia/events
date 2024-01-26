@@ -10,10 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-# Django's imports
 from pathlib import Path
 
-# Developer's imports
 import os
 import environ
 
@@ -52,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Libraries
     'crispy_forms',
+    'django_extensions',
     # Developer's apps
     'accounts',
     'events',
@@ -63,14 +62,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # Configuration to run in Heroku
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Custom middleware to handle errors
+    'events.middleware.CustomErrorMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -149,9 +148,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# Configuration to run in Heroku
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -171,11 +167,3 @@ LOGOUT_REDIRECT_URL = 'login'
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
-# Optional configuration
-# MAILER_EMAIL_BACKEND = EMAIL_BACKEND
-# EMAIL_HOST = 'host_mail_server'
-# EMAIL_HOST_PASSWORD = 'host_password'
-# EMAIL_HOST_USER = 'host_email'
-# EMAIL_PORT = 465
-# EMAIL_USE_SSL = True
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

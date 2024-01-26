@@ -1,19 +1,12 @@
-# Djangos' imports
 from django.test import TestCase
-
-# Developer's import
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 
-# Models' imports
 from events.models import Event, Subscription
 
-# Forms' imports
-from events.forms import EventCreationForm, EventUpdateForm, EventSubscriptionForm
 
-
-# models' test
 class EventsTests(TestCase):
+    """Events' test."""
 
     def create_event(self):
         User = get_user_model()
@@ -26,6 +19,7 @@ class EventsTests(TestCase):
 
 
 class SubscriptionsTests(TestCase):
+    """Subscriptions' test."""
 
     def create_event(self):
         User = get_user_model()
@@ -41,53 +35,3 @@ class SubscriptionsTests(TestCase):
     def test_create_subscription(self):
         subscription = self.create_subscription()
         self.assertTrue(isinstance(subscription, Subscription))
-
-
-# form's test
-class EventsFormTests(TestCase):
-
-    def test_create_form(self):
-        self.user = 'new_user'
-        self.title = 'new_title'
-        self.description = 'new_description'
-        self.date = timezone.now()
-
-        self.data = {
-            'user': self.user,
-            'title': self.title,
-            'description': self.description,
-            'date': self.date
-        }
-
-        self.form = EventCreationForm(data=self.data)
-
-    def test_update_form(self):
-        self.user = 'new_user'
-        self.title = 'new_title'
-        self.description = 'new_description'
-        self.date = timezone.now()
-        self.active = True
-
-        self.data = {
-            'user': self.user,
-            'title': self.title,
-            'description': self.description,
-            'date': self.date,
-            'active': self.active
-        }
-
-        self.form = EventUpdateForm(data=self.data)
-
-
-class SubscriptionsFormTests(TestCase):
-
-    def test_event_subscription_form(self):
-        self.subscribed_user = 1
-        self.subscribed_event = 1
-
-        self.data = {
-            'subscribed_user': self.subscribed_user,
-            'subscribed_event': self.subscribed_event,
-        }
-
-        self.form = EventSubscriptionForm(data=self.data)

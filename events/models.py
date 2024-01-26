@@ -1,17 +1,12 @@
-#  Django's imports
 from django.db import models
 
-# Developer's imports
 from accounts.models import CustomUser
 
 
-"""
-This class provides these three parameters for the other classes to inherit and in the django admin,
-the superuser can manage the created models.
-"""
-
-# This class defines three parameters for easy viewing on the admin panel
 class Base(models.Model):
+    """Base model with common fields."""
+
+    id = models.BigAutoField(primary_key=True)
     created = models.DateField('Created', auto_now_add=True)
     modified = models.DateField('Modified', auto_now=True)
     active = models.BooleanField('Active', default=True)
@@ -20,13 +15,13 @@ class Base(models.Model):
         abstract = True
 
 
-# In this class we can create the Event object
 class Event(Base):
-    user = models.ForeignKey(CustomUser, related_name='user', on_delete=models.DO_NOTHING)
+    """Model to represent an event."""
+
+    user = models.ForeignKey(CustomUser, related_name='user', on_delete=models.CASCADE, blank=False, null=False)
     title = models.CharField('Title', max_length=250, blank=False, null=False)
     description = models.CharField('Description', max_length=500, blank=False, null=False)
-    date = models.DateField('Date', max_length=500, blank=False, null=False)
-    participants = models.ManyToManyField(CustomUser, related_name='participants')
+    date = models.DateField('Date', blank=False, null=False)
 
      # Configuration for easy viewing of data on the admin panel
     class Meta:
@@ -37,10 +32,12 @@ class Event(Base):
         return self.title
 
 
-# In this class we can assign an event
 class Subscription(Base):
-    subscribed_user = models.ForeignKey(CustomUser, related_name='subscribed_user', on_delete=models.DO_NOTHING)
-    subscribed_event = models.ForeignKey(Event, related_name='subscribed_event', on_delete=models.DO_NOTHING)
+    """Model to represent a subscription to an event."""
+
+    subscribed_user = models.ForeignKey(CustomUser, related_name='subscribed_user', on_delete=models.CASCADE, blank=False, null=False)
+    subscribed_event = models.ForeignKey(Event, related_name='subscribed_event', on_delete=models.CASCADE, blank=False, null=False)
+    unique_together = ['subscribed_user', 'subscribed_event'] # Adding the uniqueness constraint
 
      # Configuration for easy viewing of data on the admin panel
     class Meta:

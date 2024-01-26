@@ -1,13 +1,12 @@
-# Developer's imports
 from django.urls import path
 
-# View's imports
-from .views import *
+from .views import SignUpView, EmailUpdateView
 
 
 urlpatterns = [
     # View to subscribe new users
     path('signup/', SignUpView.as_view(), name='signup'),
+    
     # View to update users
-    path('emailupdateview/<int:pk>/', EmailUpdateView.as_view(), name='emailupdateview'),
+    path('emailupdate/<int:pk>/', EmailUpdateView.as_view(), name='emailupdate'),
 ]

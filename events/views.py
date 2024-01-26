@@ -1,128 +1,207 @@
-#  Django's imports
-from django.shortcuts import render
-
-# Developer's imports
+from django.db.models import Count, OuterRef, Exists
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 
-# Models Events' imports
 from events.models import Event, Subscription
 
-# Forms' imports
-from .forms import *
+from .forms import EventCreationForm, EventUpdateForm, EventSubscriptionForm
 
 
-# This class show all events
+
+class UserAccessMixin:
+    """Mixin for access control."""
+    
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user != self.get_object().user:
+            raise Http404("You are not allowed to perform this action.")
+        return super().dispatch(request, *args, **kwargs)
+
+
 @method_decorator(login_required, name='dispatch')
-class AllEventsListView(ListView):
-    models = Event
-    template_name = 'events/alleventslistview.html'
+class AllEventsListView(LoginRequiredMixin, ListView):
+    """View to show all events."""
+    
+    model = Event
+    template_name = 'events/alleventslist.html'
+    context_object_name = 'all_active_events'
+    paginate_by = 4
 
-    def get(self, request):
-        # Filtering all active events
-        data = Event.objects.filter(active=True).order_by('date')
+    def get_queryset(self):
+        user = self.request.user
 
-        # Creating a list to receive all active events and their data
-        all_active_events = []
+        queryset = (
+            Event.objects
+            .filter(active=True)
+            .annotate(
+                participant_count=Count('subscribed_event__subscribed_user', distinct=True),
+                user_is_subscribed=Exists(
+                    Subscription.objects.filter(
+                        subscribed_user=user,
+                        subscribed_event=OuterRef('id')
+                    )
+                )
+            )
+            .values('id', 'title', 'date', 'user__email', 'participant_count', 'user_is_subscribed')
+            .order_by('date')
+        )
+        return queryset
 
-        # Making a loop in Events queryset, to better handle with the data and append items in all_active_events list
-        for item in data.values():
-            all_active_events.append(item)
-
-            # Making a loop in Events queryset to check user_id and append the owner info
-            for d in data:
-                if int(d.user_id) == int(item.get('user_id')):
-                    # This block is used to separate the username from the user's full email
-                    username = str(d.user)
-                    owner = username[:username.index("@")]
-                    item['owner'] = owner
-
-                    # This block is used to get the total number of users in each event 
-                    subscriptions = Subscription.objects.filter(subscribed_event_id=item.get('id'))
-                    item['amount_of_participants'] = len(subscriptions) 
-
-                    # Add the subscribed user and subscribed id to the event in 'all_active_events'
-                    for s in subscriptions.values():
-                        item['user_participant'] = s.get('subscribed_user_id')
-                        item['subscription_id'] = s.get('id')
-
-        context = {'all_active_events': all_active_events}
-
-        return render(request, 'events/alleventslistview.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        paginator = Paginator(queryset, self.paginate_by)
+        page = self.request.GET.get('page')
+        try:
+            all_active_events = paginator.page(page)
+        except PageNotAnInteger:
+            all_active_events = paginator.page(1)
+        except EmptyPage:
+            all_active_events = paginator.page(paginator.num_pages)
+        context['all_active_events'] = all_active_events
+        return context
 
 
-# This class show all user's events
 @method_decorator(login_required, name='dispatch')
-class UserEventsListView(ListView):
-    models = Event
-    template_name = 'events/usereventslistview.html'
+class UserEventsListView(LoginRequiredMixin, ListView):
+    """View to show user's events."""
+    
+    model = Event
+    template_name = 'events/usereventslist.html'
+    context_object_name = 'user_events'
+    paginate_by = 2
 
-    def get(self, request):
-        # Getting data from logged user
-        logged_user = request.user.id
-        # Filtering all active events
-        data = Event.objects.filter(user=logged_user).order_by('date')
+    def get_queryset(self):
+        return Event.objects.filter(user=self.request.user).order_by('date')
 
-        context = {'data': data}
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        paginator = Paginator(queryset, self.paginate_by)
+        page = self.request.GET.get('page')
+        try:
+            user_events = paginator.page(page)
+        except PageNotAnInteger:
+            user_events = paginator.page(1)
+        except EmptyPage:
+            user_events = paginator.page(paginator.num_pages)
+        context['user_events'] = user_events
+        return context
 
-        return render(request, 'events/usereventslistview.html', context)
 
-
-# In this class we can create events
 @method_decorator(login_required, name='dispatch')
-class EventsCreateView(CreateView):
+class EventsCreateView(LoginRequiredMixin, CreateView):
+    """View to create events."""
+    
     model = Event
     form_class = EventCreationForm
-    template_name = 'events/eventscreateview.html'
-    success_url = reverse_lazy('usereventslistview')
+    template_name = 'events/eventscreate.html'
+    success_url = reverse_lazy('usereventslist')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
-# In this class we can edit events
 @method_decorator(login_required, name='dispatch')
-class EventsUpdateView(UpdateView):
+class EventsUpdateView(LoginRequiredMixin, UserAccessMixin, UserPassesTestMixin, UpdateView):
+    """View to edit events."""
+    
     model = Event
-    template_name = "events/eventsupdateview.html"
+    template_name = "events/eventsupdate.html"
     form_class = EventUpdateForm
-    success_url = reverse_lazy("usereventslistview")
+    success_url = reverse_lazy("usereventslist")
+
+    def test_func(self):
+        event = self.get_object()
+        return self.request.user == event.user
 
 
-# In this class we can edit events
 @method_decorator(login_required, name='dispatch')
-class EventsDeleteView(DeleteView):
+class EventsDeleteView(LoginRequiredMixin, UserAccessMixin, UserPassesTestMixin, DeleteView):
+    """View to delete events."""
+    
     model = Event
-    template_name = "events/eventsdeleteview.html"
-    success_url = reverse_lazy('usereventslistview')
+    template_name = "events/eventsdelete.html"
+    success_url = reverse_lazy('usereventslist')
+
+    def test_func(self):
+        event = self.get_object()
+        return self.request.user == event.user
 
 
-# In this class we can sign up an events
 @method_decorator(login_required, name='dispatch')
-class EventSubscriptionView(CreateView):
+class EventSubscriptionView(LoginRequiredMixin, CreateView):
+    """View to sign up for events."""
+    
     model = Subscription
     form_class = EventSubscriptionForm
-    template_name = 'events/eventsubscriptionview.html'
-    success_url = reverse_lazy('alleventslistview')
+    template_name = 'events/eventsubscription.html'
+    success_url = reverse_lazy('alleventslist')
 
-    def get(self, request, pk):
-        # Filtering events by id
-        data = Event.objects.filter(id=pk).values()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        event = Event.objects.get(pk=self.kwargs['pk'])
+        context['title'] = event.title
+        return context
 
-        # Get logged user id
-        logged_user = request.user.id
-
-        context = {
-            'title': data[0]['title'],
-            'event_id': data[0]['id'],
-            'logged_user': logged_user
-            }
-
-        return render(request, 'events/eventsubscriptionview.html', context)
+    def form_valid(self, form):
+        event_id = self.kwargs['pk']
+        form.instance.subscribed_user = self.request.user
+        form.instance.subscribed_event_id = event_id
+        return super().form_valid(form)
 
 
-# In this class, we can unsubscribe to an events
 @method_decorator(login_required, name='dispatch')
-class EventUnsubscriptionView(DeleteView):
+class EventUnsubscriptionView(LoginRequiredMixin, DeleteView):
+    """View to unsubscribe from events."""
+    
     model = Subscription
-    template_name = "events/eventunsubscriptionview.html"
-    success_url = reverse_lazy('alleventslistview')
+    template_name = "events/eventunsubscription.html"
+    success_url = reverse_lazy('alleventslist')
+
+    def get(self, request, *args, **kwargs):
+        subscription = get_object_or_404(Subscription, subscribed_user=request.user, subscribed_event=kwargs['pk'])
+        return render(request, self.template_name, {'subscription': subscription})
+
+    def delete(self, request, *args, **kwargs):
+        subscription = get_object_or_404(Subscription, subscribed_user=request.user, subscribed_event=kwargs['pk'])
+        subscription.delete()
+        return HttpResponseRedirect(self.success_url)
+
+
+def bad_request(request, exception):
+    """
+    View to handle bad requests (status 400).
+    Renders a custom error template.
+    """
+    return render(request, 'error.html', status=400)
+
+
+def permission_denied(request, exception):
+    """
+    View to handle permission denied (status 403).
+    Renders a custom error template.
+    """
+    return render(request, 'error.html', status=403)
+
+
+def page_not_found(request, exception):
+    """
+    View to handle page not found (status 404).
+    Renders a custom error template.
+    """
+    return render(request, 'error.html', status=404)
+
+
+def server_error(request):
+    """
+    View to handle server errors (status 500).
+    Renders a custom error template.
+    """
+    return render(request, 'error.html', status=500)

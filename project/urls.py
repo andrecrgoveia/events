@@ -13,22 +13,33 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# Django's imports
 from django.contrib import admin
 from django.urls import path, include
-
-# Developer's imports
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic.base import TemplateView
 
+
 urlpatterns = [
+    # Path to django admin
     path('admin/', admin.site.urls),
-    # This path must to be above the django module authentication
+
+    # Path to be accounts app
     path('accounts/', include('accounts.urls')),
+
     # Django module authentication
     path('accounts/', include('django.contrib.auth.urls')),
+
     # Path to events app
     path('events/', include('events.urls')),
+
+    # Path to home
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# Custom handle erros
+handler400 = 'events.views.bad_request'
+handler403 = 'events.views.permission_denied'
+handler404 = 'events.views.page_not_found'
+handler500 = 'events.views.server_error'

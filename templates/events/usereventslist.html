@@ -1,0 +1,75 @@
+<!-- templates/events/usereventlist.html -->
+{% extends 'base.html' %}
+
+{% block title %}Your Events{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <br>
+    <h3 class="text-center">Your Events Registered</h3>
+    <br>
+
+    <table id="myTable" class="table">
+        <thead>
+            <tr>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Active?</th>
+                <th>Modified At</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in user_events %}
+            <tr>
+                <td>
+                    <a href="{% url 'eventsupdate' item.pk %}" class="btn btn-primary"><i class="fas fa-edit" style="color: white;"></i></a>
+                </td>
+                <td>
+                    <a href="{% url 'eventsdelete' item.pk %}" class="btn btn-danger"><i class="fas fa-trash-alt" style="color: white;"></i></a>
+                </td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.date }}</td>
+
+                {% if item.active == True %}
+                    <td>
+                        <button type="button" class="btn btn-outline-success">Active</button>
+                    </td>
+                {% else %}
+                    <td>
+                        <button type="button" class="btn btn-outline-danger">Inactive</button>
+                    </td>
+                {% endif %}
+
+                <td>{{ item.modified }}</td>
+                <td>{{ item.created }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if user_events.has_previous %}
+                <a href="?page=1" class="btn btn-warning">&laquo; first</a>
+                <a href="?page={{ user_events.previous_page_number }}" class="btn btn-warning">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ user_events.number }} of {{ user_events.paginator.num_pages }}.
+            </span>
+    
+            {% if user_events.has_next %}
+                <a href="?page={{ user_events.next_page_number }}" class="btn btn-warning">next</a>
+                <a href="?page={{ user_events.paginator.num_pages }}" class="btn btn-warning">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>   
+
+</div>
+{% endblock %}

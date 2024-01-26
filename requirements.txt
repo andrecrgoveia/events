@@ -1,8 +1,10 @@
 asgiref==3.4.1
-Django==3.2
+Django==3.2.15
 django-crispy-forms==1.13.0
 django-environ==0.9.0
-gunicorn==20.1.0
+django-extensions==3.2.3
+pydotplus==2.0.2
+pygraphviz==1.12
+pyparsing==3.1.1
 pytz==2022.1
 sqlparse==0.4.2
-whitenoise==5.3.0

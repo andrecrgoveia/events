@@ -1,23 +1,35 @@
-# Developer's imports
 from django.urls import path
 
-# View's imports
-from .views import *
+from .views import (
+    AllEventsListView,
+    UserEventsListView,
+    EventsCreateView,
+    EventsUpdateView,
+    EventsDeleteView,
+    EventSubscriptionView,
+    EventUnsubscriptionView,
+)
 
 
 urlpatterns = [
     # Path to show all events
-    path('alleventslistview/', AllEventsListView.as_view(), name='alleventslistview'),
+    path('alleventslist/', AllEventsListView.as_view(), name='alleventslist'),
+
     # Path to show all user's events
-    path('usereventslistview/', UserEventsListView.as_view(), name='usereventslistview'),
+    path('usereventslist/', UserEventsListView.as_view(), name='usereventslist'),
+
     # Path to create events
-    path('eventscreateview/', EventsCreateView.as_view(), name='eventscreateview'),
+    path('eventscreate/', EventsCreateView.as_view(), name='eventscreate'),
+
     # Path to edit events
-    path('eventsupdateview/<int:pk>/', EventsUpdateView.as_view(), name='eventsupdateview'),
+    path('eventsupdate/<int:pk>/', EventsUpdateView.as_view(), name='eventsupdate'),
+
     # Path to delete events
-    path('eventsdeleteview/<int:pk>/', EventsDeleteView.as_view(), name='eventsdeleteview'),
+    path('eventsdelete/<int:pk>/', EventsDeleteView.as_view(), name='eventsdelete'),
+
     # Path to sign up an event
-    path('eventsubscriptionview/<int:pk>/', EventSubscriptionView.as_view(), name='eventsubscriptionview'),
+    path('eventsubscription/<int:pk>/', EventSubscriptionView.as_view(), name='eventsubscription'),
+
     # Path to sign up an event
-    path('eventunsubscriptionview/<int:pk>/', EventUnsubscriptionView.as_view(), name='eventunsubscriptionview'),
+    path('eventunsubscription/<int:pk>/', EventUnsubscriptionView.as_view(), name='eventunsubscription'),
 ]
