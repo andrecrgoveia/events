@@ -2,7 +2,7 @@
 Author: André Castelo
 
 ## Description
-I created a project called 'events' where users can:
+This project is an event management system, developed using the Django framework for Python. It allows users to create, manage and participate in events. Key features include:
 - Register with email and password
 - Login with email and password
 - Change Password
@@ -62,4 +62,19 @@ Run these two Docker commands in the project root (where the docker files are lo
 Through dockerhub pull the image and run:
 - docker run --name <CONTAINER_NAME> -p <YOUR_PORT>:8000 andrecrgoveia/events-app:latest
 - In your browser go to the address http://0.0.0.0:<YOUR_PORT>/
+- 
+## Contribution
 
+### Contributions are welcome. To contribute:
+- Fork the project
+- Create a new branch (git checkout -b feature/NewFunctionality)
+- Make your changes
+- Commit your changes (git commit -m 'Adding new functionality')
+- Push to the branch (git push origin feature/NovaFuncionalidade)
+- Open a Pull Request
+
+## License
+This project is under the MIT license. See the LICENSE file for more details.
+
+## Credits
+Special thanks to the contributors and the libraries and tools used, including Python, Django, SQLite and Docker.
