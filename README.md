@@ -41,28 +41,68 @@ user
 ![Database relations](https://raw.githubusercontent.com/andrecrgoveia/events/master/db_relations.png)
 
 ## How to run the project?
+Clone the project:
+```shell
+git clone https://github.com/andrecrgoveia/events.git
+```
+
+Navigate into the folder that was cloned
+
+Install virtualenv (if not already installed):
+```shell
+pip install virtualenv
+```
+
+Windows:
+```shell
+venv_events\Scripts\activate
+```
+
+Linux:
+```shell
+source venv_events/bin/activate
+```
+
+Install dependencies:
+```shell
+pip install -r requirements.txt
+```
 
 ### Python:
 Run the command in the project root (where the manage.py file are located)
-- python3 manage.py runserver <YOUR_PORT>
+```shell
+python3 manage.py runserver <YOUR_PORT>
+```
 - In your browser go to the address http://0.0.0.0:<YOUR_PORT>/
 
 ### Gunicorn:
 Run the command in the project root (where the manage.py file are located)
-- gunicorn -c gunicorn_config.py project.wsgi:application
+```shell
+gunicorn -c gunicorn_config.py project.wsgi:application
+```
 - In your browser go to the address http://0.0.0.0:8000/
-- If you can, run gunicorn -b 0.0.0.0:<YOUR_PORT> project.wsgi:application
+- If you want, you can run the project on the port of your choice
+```shell
+gunicorn -b 0.0.0.0:<YOUR_PORT> project.wsgi:application
+```
 - In your browser go to the address http://0.0.0.0:<YOUR_PORT>/
 
 ### Docker:
 Run these two Docker commands in the project root (where the docker files are located):
-- docker-compose build
-- docker-compose up
+```shell
+docker-compose build
+```
+```shell
+docker-compose up
+```
+- In your browser go to the address http://0.0.0.0:<YOUR_PORT>/
 
 Through dockerhub pull the image and run:
-- docker run --name <CONTAINER_NAME> -p <YOUR_PORT>:8000 andrecrgoveia/events-app:latest
+```shell
+docker run --name <CONTAINER_NAME> -p <YOUR_PORT>:8000 andrecrgoveia/events-app:latest
+```
 - In your browser go to the address http://0.0.0.0:<YOUR_PORT>/
-- 
+
 ## Contribution
 
 ### Contributions are welcome. To contribute:
