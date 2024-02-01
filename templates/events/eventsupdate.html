@@ -1,65 +1,53 @@
-<!-- templates/events/eventsupdate.html -->
 {% extends 'base.html' %}
-
 {% load crispy_forms_tags %}
 
-{% block title %}Edit Event{% endblock %}
+{% block title %}
+    Edit Event
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container">
+    <div class="row mt-5 justify-content-md-center">
+        <div class="col-md-auto">
 
-  <div class="row justify-content-md-center">
-    <div class="col-md-auto">
+            <h3 class="text-center">Edit Event: {{ object }}</h3>
 
-      <br>
-      <h3 class="text-center">Edit Event: {{ object }}</h3>
-      <br>
+            <form method="post">
+                {% csrf_token %}
 
-  <form method="post">
-    {% csrf_token %}
+                <div class="row justify-content-md-center mt-3">
+                    <div class="col-sm-3">
+                        {{ form.active|as_crispy_field }}
+                    </div>
+                </div>
 
-        <div class="row justify-content-md-center">
-          <div class="col-sm-3">
-            {{ form.active|as_crispy_field }}
-          </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.title|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.description|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center mt-3">
+                    <div class="col-sm-6">
+                        {{ form.date|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center mt-3">
+                    <div class="col-md-auto">
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </div>
+                </div>
+
+            </form>
+
         </div>
-
-        <br>
-        
-        <div class="row">
-          <div class="col-sm">
-            {{ form.title|as_crispy_field }}
-          </div>
-        </div>
-    
-        <br>
-    
-        <div class="row">
-          <div class="col-sm">
-              {{ form.description|as_crispy_field }}
-          </div>
-        </div>
-    
-        <br>
-
-        <div class="row justify-content-md-center">
-          <div class="col-sm-6">
-            {{ form.date|as_crispy_field }}
-          </div>
-        </div>
-
-        <br>
-
-        <div class="row justify-content-md-center">
-          <div class="col-md-auto">
-            <button type="submit" class="btn btn-primary">Edit</button>
-          </div>
-        </div>
-
-      </div>
     </div>
-
-  </form>
-
 </div>
 {% endblock %}

@@ -1,57 +1,48 @@
-<!-- templates/events/eventscreate.html -->
 {% extends 'base.html' %}
-
 {% load crispy_forms_tags %}
 
-{% block title %}Create Event{% endblock %}
+{% block title %}
+    Create Event
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-
-  <br>
-  <h3 class="text-center">Create Event</h3>
-  <br>
-
-  <form method="post">
-    {% csrf_token %}
-
-    <div class="row justify-content-md-center">
-      <div class="col-md-auto">
-        
-        <div class="row">
-          <div class="col-sm">
-            {{ form.title|as_crispy_field }}
-          </div>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h3>Create Event</h3>
         </div>
-    
-        <br>
-    
-        <div class="row">
-          <div class="col-sm">
-              {{ form.description|as_crispy_field }}
-          </div>
-        </div>
-    
-        <br>
-
-        <div class="row justify-content-md-center">
-          <div class="col-sm-6">
-            {{ form.date|as_crispy_field }}
-          </div>
-        </div>
-
-        <br>
-
-        <div class="row justify-content-md-center">
-          <div class="col-md-auto">
-            <button type="submit" class="btn btn-primary">Create</button>
-          </div>
-        </div>
-
-      </div>
     </div>
 
-  </form>
+    <form method="post">
+        {% csrf_token %}
 
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-md-auto">
+                <div class="row">
+                    <div class="col">
+                        {{ form.title|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+                        {{ form.description|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center mt-3">
+                    <div class="col-sm-6">
+                        {{ form.date|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center mt-3">
+                    <div class="col-md-auto">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}

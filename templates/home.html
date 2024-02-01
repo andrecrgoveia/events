@@ -1,64 +1,53 @@
-<!-- templates/home.html -->
 {% extends 'base.html' %}
-
 {% load crispy_forms_tags %}
 
-{% block title %}Home{% endblock %}
+{% block title %}
+    Home
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-
-  {% if user.is_authenticated %}
-
-  <br>
-  <h3 class="text-center">Hi {{ user.email }}!</h3>
-  <br>
-  <br>
-  <br>
-
-  <div class="row">
-    <div class="col-sm">
-      <div class="card text-center">
-        <div class="card-body">
-          <h5 class="card-title">View all events</h5>
-          <p class="card-text">Here you can see all events.</p>
-          <a href="{% url 'alleventslist' %}" class="btn btn-primary">Go</a>
+<div class="container">
+    {% if user.is_authenticated %}
+        <div class="row mt-5">
+            <div class="col text-center">
+                <h3>Hi {{ user.email }}!</h3>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="card text-center">
-        <div class="card-body">
-          <h5 class="card-title">Create your event</h5>
-          <p class="card-text">Here you can create your own event.</p>
-          <a href="{% url 'eventscreate' %}" class="btn btn-primary">Go</a>
+        <div class="row mt-3">
+            <div class="col-sm">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">View all events</h5>
+                        <p class="card-text">Here you can see all events.</p>
+                        <a href="{% url 'alleventslist' %}" class="btn btn-primary">Go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Create your event</h5>
+                        <p class="card-text">Here you can create your own event.</p>
+                        <a href="{% url 'eventscreate' %}" class="btn btn-primary">Go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Your registered events</h5>
+                        <p class="card-text">Here you can manage your own event.</p>
+                        <a href="{% url 'usereventslist' %}" class="btn btn-primary">Go</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="card text-center">
-        <div class="card-body">
-          <h5 class="card-title">Your registered events</h5>
-          <p class="card-text">Here you can manage your own event.</p>
-          <a href="{% url 'usereventslist' %}" class="btn btn-primary">Go</a>
+    {% else %}
+        <div class="row mt-5">
+            <div class="col text-center">
+                <p>You are not logged in!</p>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  {% else %}
-
-  <br>
-  <br>
-  <br>
-
-  <div class="row align-items-center">
-    <div class="col">
-      <p class="text-center">You are not logged in!</p>
-    </div>
-  </div>
-
-  {% endif %}
-
+    {% endif %}
 </div>
 {% endblock %}

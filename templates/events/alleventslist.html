@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
-
-{% block title %}All Event{% endblock %}
-
 {% load custom_filters %}
+
+{% block title %}
+    All Events
+{% endblock %}
 
 {% block content %}
 <div class="container">
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h3>All Events</h3>
+        </div>
+    </div>
 
-    <br>
-    <h3 class="text-center">All Events</h3>
-    <br>
-
-    <table id="myTable" class="table">
+    <table class="table mt-3">
         <thead>
             <tr>
                 <th>Sign Up / Withdraw</th>
@@ -22,45 +24,44 @@
             </tr>
         </thead>
         <tbody>
-        {% for event in all_active_events %}
-        <tr>
-            <td>
-                {% if event.user_is_subscribed %}
-                    <a href="{% url 'eventunsubscription' event.id %}" class="btn btn-danger">
-                        <i class="fas fa-user-minus" style="color: white;"></i>
-                    </a>
-                {% else %}
-                    <a href="{% url 'eventsubscription' event.id %}" class="btn btn-primary">
-                        <i class="fas fa-user-plus" style="color: white;"></i>
-                    </a>
-                {% endif %}
-            </td>
-            <td>{{ event.title }}</td>
-            <td>{{ event.date }}</td>
-            <td>{{ event.participant_count }}</td>
-            <td>{{ event.user__email|get_username_before_at }}</td>
-        </tr>
-        {% endfor %}
+            {% for event in all_active_events %}
+                <tr>
+                    <td>
+                        {% if event.user_is_subscribed %}
+                            <a href="{% url 'eventunsubscription' event.id %}" class="btn btn-danger">
+                                <i class="fas fa-user-minus" style="color: white;"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'eventsubscription' event.id %}" class="btn btn-primary">
+                                <i class="fas fa-user-plus" style="color: white;"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.date }}</td>
+                    <td>{{ event.participant_count }}</td>
+                    <td>{{ event.user__email|get_username_before_at }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <div class="pagination">
+    <div class="pagination mt-3">
         <span class="step-links">
             {% if all_active_events.has_previous %}
                 <a href="?page=1" class="btn btn-warning">&laquo; first</a>
                 <a href="?page={{ all_active_events.previous_page_number }}" class="btn btn-warning">previous</a>
             {% endif %}
-    
+
             <span class="current">
                 Page {{ all_active_events.number }} of {{ all_active_events.paginator.num_pages }}.
             </span>
-    
+
             {% if all_active_events.has_next %}
                 <a href="?page={{ all_active_events.next_page_number }}" class="btn btn-warning">next</a>
                 <a href="?page={{ all_active_events.paginator.num_pages }}" class="btn btn-warning">last &raquo;</a>
             {% endif %}
         </span>
-    </div>    
-
+    </div>
 </div>
 {% endblock %}

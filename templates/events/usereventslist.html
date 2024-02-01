@@ -1,16 +1,18 @@
-<!-- templates/events/usereventlist.html -->
 {% extends 'base.html' %}
 
-{% block title %}Your Events{% endblock %}
+{% block title %}
+    Your Events
+{% endblock %}
 
 {% block content %}
 <div class="container">
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h3>Your Events Registered</h3>
+        </div>
+    </div>
 
-    <br>
-    <h3 class="text-center">Your Events Registered</h3>
-    <br>
-
-    <table id="myTable" class="table">
+    <table class="table mt-4">
         <thead>
             <tr>
                 <th>Edit</th>
@@ -27,25 +29,21 @@
             {% for item in user_events %}
             <tr>
                 <td>
-                    <a href="{% url 'eventsupdate' item.pk %}" class="btn btn-primary"><i class="fas fa-edit" style="color: white;"></i></a>
+                    <a href="{% url 'eventsupdate' item.pk %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                    <a href="{% url 'eventsdelete' item.pk %}" class="btn btn-danger"><i class="fas fa-trash-alt" style="color: white;"></i></a>
+                    <a href="{% url 'eventsdelete' item.pk %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                 </td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.date }}</td>
-
-                {% if item.active == True %}
-                    <td>
-                        <button type="button" class="btn btn-outline-success">Active</button>
-                    </td>
-                {% else %}
-                    <td>
-                        <button type="button" class="btn btn-outline-danger">Inactive</button>
-                    </td>
-                {% endif %}
-
+                <td>
+                    {% if item.active %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-danger">Inactive</span>
+                    {% endif %}
+                </td>
                 <td>{{ item.modified }}</td>
                 <td>{{ item.created }}</td>
             </tr>
@@ -53,7 +51,7 @@
         </tbody>
     </table>
 
-    <div class="pagination">
+    <div class="pagination mt-4">
         <span class="step-links">
             {% if user_events.has_previous %}
                 <a href="?page=1" class="btn btn-warning">&laquo; first</a>
@@ -69,7 +67,6 @@
                 <a href="?page={{ user_events.paginator.num_pages }}" class="btn btn-warning">last &raquo;</a>
             {% endif %}
         </span>
-    </div>   
-
+    </div>
 </div>
 {% endblock %}
